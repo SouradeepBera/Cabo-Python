@@ -1,4 +1,4 @@
-from card import Card
+import utils 
 
 class Player(object):
 
@@ -25,16 +25,18 @@ class Player(object):
         self.cards[idx] = new_card
         return old_card
 
-    def display_all_cards(self):
-        print("Displaying all cards for player", self.name)
-        for card in self.cards:
-            print(card)
-        
-    def display_first_two_cards(self):
-        print("Displaying first two cards for player", self.name)
-        for card in self.cards[:2]:
-            print(card)
+    def display_all_cards(self, r, ch):
+        r.publish(ch , utils.construct_message('Displaying all cards ', False))
 
-    def display_card_by_idx(self, idx):
-        print("Displaying card for player", self.name, "at index", idx)
-        print(self.cards[idx])
+        for card in self.cards:
+            r.publish(ch , utils.construct_message(str(card), False))
+        
+    def display_first_two_cards(self, r, ch):
+        r.publish(ch , utils.construct_message('Displaying first two cards ', False))
+
+        for card in self.cards[:2]:
+            r.publish(ch , utils.construct_message(str(card), False))
+
+    def display_card_by_idx(self, idx, r, ch):
+        r.publish(ch , utils.construct_message("Displaying card for player at index"+str(idx), False))
+        r.publish(ch , utils.construct_message(str(self.cards[idx]), False))

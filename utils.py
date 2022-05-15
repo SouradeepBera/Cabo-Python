@@ -1,6 +1,7 @@
-from card import Card
-from player import Player
-from deck import Deck
+import card
+import player
+import deck
+import json
 
 def initialise_full_deck():
     all_cards = []
@@ -11,9 +12,9 @@ def initialise_full_deck():
 
     for suit in suits:
         for number in numbers:
-            all_cards.append(Card(suit, number))
+            all_cards.append(card.Card(suit, number))
     
-    full_deck = Deck()
+    full_deck = deck.Deck()
     full_deck.add_cards(all_cards)
     full_deck.shuffle_deck()
     return full_deck
@@ -21,7 +22,7 @@ def initialise_full_deck():
 def instantiate_players(names):
     players = []
     for name in names:
-        players.append(Player(name))
+        players.append(player.Player(name))
     return players
 
 def assign_cards(players, full_deck):
@@ -29,8 +30,22 @@ def assign_cards(players, full_deck):
     for i in range (4*n_players):
         players[i//4].add_card(full_deck.draw_card())
 
-    unseen_deck = Deck()
+    unseen_deck = deck.Deck()
     unseen_cards = [c for c in full_deck.cards]
     unseen_deck.add_cards(unseen_cards)
     unseen_deck.shuffle_deck()
     return unseen_deck
+
+def construct_message(body, response_req=True):
+    mssg = {
+        'body': body,
+        'response_req': response_req
+    }
+    return json.dumps(mssg, separators=(',', ':'))
+
+def get_input(sub, req_ch):
+    for message in sub.listen():
+        data = message['data']
+        channel = message['channel']
+        if channel == req_ch:
+            return data

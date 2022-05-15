@@ -1,4 +1,5 @@
 import redis
+import json
 
 client_id = 1
 
@@ -10,7 +11,9 @@ sub.subscribe(("server-to-client" + str(client_id)))
 sub.subscribe("server-to-all")
 
 for message in sub.listen():
-    print(message['data'])
-    response = input()
-    r.publish("client"+str(client_id)+"-to-server", response)
+    data = json.loads(message['data'])
+    print(data['body'])
+    if data['response_req']:
+        response = input()
+        r.publish("client"+str(client_id)+"-to-server", response)
 

@@ -54,8 +54,8 @@ class Game(object):
         # power card logic
         if put_card.number == '7' or put_card.number == '8':
             self.r.publish(p_ch , utils.construct_message("Enter own card index: "))
-            diplay_card_idx = int(utils.get_input(self.sub, server_ch))
-            display_card = self.players[p_idx].get_card_by_idx(diplay_card_idx)
+            display_card_idx = int(utils.get_input(self.sub, server_ch))
+            display_card = self.players[p_idx].get_card_by_idx(display_card_idx)
             self.r.publish(p_ch , utils.construct_message("Displaying own card: "+ str(display_card), False))
             self.r.publish(all_ch , utils.construct_message("Player viewed card with index: "+ str(display_card_idx), False))
 
@@ -64,9 +64,9 @@ class Game(object):
             self.r.publish(p_ch , utils.construct_message("Enter opponent index: "))
             opponent_idx = int(utils.get_input(self.sub, server_ch))
             self.r.publish(p_ch , utils.construct_message("Enter oppenent's card index: "))
-            diplay_card_idx = int(utils.get_input(self.sub, server_ch))
+            display_card_idx = int(utils.get_input(self.sub, server_ch))
 
-            display_card = self.players[opponent_idx].get_card_by_idx(diplay_card_idx)
+            display_card = self.players[opponent_idx].get_card_by_idx(display_card_idx)
             self.r.publish(p_ch , utils.construct_message("Displaying opponent's card: "+ str(display_card), False))
             self.r.publish(all_ch , utils.construct_message("Player viewed card of "+ self.players[opponent_idx].name+" at index: "+ str(display_card_idx), False))
         

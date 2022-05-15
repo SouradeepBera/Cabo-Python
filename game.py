@@ -57,6 +57,8 @@ class Game(object):
             diplay_card_idx = int(utils.get_input(self.sub, server_ch))
             display_card = self.players[p_idx].get_card_by_idx(diplay_card_idx)
             self.r.publish(p_ch , utils.construct_message("Displaying own card: "+ str(display_card), False))
+            self.r.publish(all_ch , utils.construct_message("Player viewed card with index: "+ str(display_card_idx), False))
+
         
         elif put_card.number == '9' or put_card.number == '10':
             self.r.publish(p_ch , utils.construct_message("Enter opponent index: "))
@@ -66,6 +68,7 @@ class Game(object):
 
             display_card = self.players[opponent_idx].get_card_by_idx(diplay_card_idx)
             self.r.publish(p_ch , utils.construct_message("Displaying opponent's card: "+ str(display_card), False))
+            self.r.publish(all_ch , utils.construct_message("Player viewed card of "+ self.players[opponent_idx].name+" at index: "+ str(display_card_idx), False))
         
         elif put_card.number == 'J':
             p_idx += 1

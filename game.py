@@ -43,10 +43,11 @@ class Game(object):
         if swap_card:
             self.r.publish(p_ch , utils.construct_message("Enter idx of card you want to swap with: "))
             c_idx = int(utils.get_input(self.sub, server_ch))
+            self.r.publish(all_ch , utils.construct_message("Swapped card with index "+str(c_idx), False))
             put_card = self.players[p_idx].replace_card(drawn_card, c_idx)
         
         self.seen_deck.add_card(put_card)
-        self.r.publish(all_ch , utils.construct_message("Card on top of seen deck "+str(put_card), False))
+        self.r.publish(all_ch , utils.construct_message("Card on top of seen deck "+str(put_card), False))      
 
         # TODO: Timer logic
 

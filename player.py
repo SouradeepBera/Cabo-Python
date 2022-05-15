@@ -26,7 +26,7 @@ class Player(object):
         return old_card
 
     def display_all_cards(self, r, ch):
-        r.publish(ch , utils.construct_message('Displaying all cards ', False))
+        r.publish(ch , utils.construct_message('Displaying all cards for'+self.name, False))
 
         for card in self.cards:
             r.publish(ch , utils.construct_message(str(card), False))

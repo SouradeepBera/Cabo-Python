@@ -13,6 +13,8 @@ sub.subscribe("server-to-all")
 for message in sub.listen():
     data = json.loads(message['data'])
     print(data['body'])
+    if data['body']=="Terminating Game":
+        break
     if data['response_req']:
         response = input()
         r.publish("client"+str(client_id)+"-to-server", response)

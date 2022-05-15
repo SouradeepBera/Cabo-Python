@@ -36,7 +36,7 @@ class Game(object):
         drawn_card = self.unseen_deck.draw_card()
         put_card = drawn_card
 
-        self.r.publish(p_ch , utils.construct_message("Drawn card:"+ str(drawn_card) + "\nSwap card? 1 or 0: "))
+        self.r.publish(p_ch , utils.construct_message("Drawn card: "+ str(drawn_card) + "\nSwap card? 1 or 0: "))
 
         swap_card = int(utils.get_input(self.sub, server_ch))
 
@@ -46,7 +46,7 @@ class Game(object):
             put_card = self.players[p_idx].replace_card(drawn_card, c_idx)
         
         self.seen_deck.add_card(put_card)
-        self.r.publish(all_ch , utils.construct_message("Card on top of seen deck"+str(put_card), False))
+        self.r.publish(all_ch , utils.construct_message("Card on top of seen deck "+str(put_card), False))
 
         # TODO: Timer logic
 
@@ -55,7 +55,7 @@ class Game(object):
             self.r.publish(p_ch , utils.construct_message("Enter own card index: "))
             diplay_card_idx = int(utils.get_input(self.sub, server_ch))
             display_card = self.players[p_idx].get_card_by_idx(diplay_card_idx)
-            self.r.publish(p_ch , utils.construct_message("Displaying own card:"+ str(display_card), False))
+            self.r.publish(p_ch , utils.construct_message("Displaying own card: "+ str(display_card), False))
         
         elif put_card.number == '9' or put_card.number == '10':
             self.r.publish(p_ch , utils.construct_message("Enter opponent index: "))
@@ -64,12 +64,12 @@ class Game(object):
             diplay_card_idx = int(utils.get_input(self.sub, server_ch))
 
             display_card = self.players[opponent_idx].get_card_by_idx(diplay_card_idx)
-            self.r.publish(p_ch , utils.construct_message("Displaying opponent's card:"+ str(display_card), False))
+            self.r.publish(p_ch , utils.construct_message("Displaying opponent's card: "+ str(display_card), False))
         
         elif put_card.number == 'J':
             p_idx += 1
             p_idx = p_idx % len(self.players)
-            self.r.publish(all_ch , utils.construct_message("Skipping Player" + str(p_idx), False))
+            self.r.publish(all_ch , utils.construct_message("Skipping Player " + str(p_idx), False))
         
         elif put_card.number == 'Q':
             self.r.publish(p_ch , utils.construct_message("Enter opponent index: "))
@@ -85,7 +85,7 @@ class Game(object):
             _ = self.players[p_idx].replace_card(opponent_card, player_card_idx)
             _ = self.players[opponent_idx].replace_card(player_card, opponent_card_idx)
 
-            self.r.publish(all_ch , utils.construct_message("Swapped cards between"+ str(self.players[opponent_idx])+ ' and '+ str(self.players[p_idx]), False))
+            self.r.publish(all_ch , utils.construct_message("Swapped cards between "+ str(self.players[opponent_idx])+ ' at index ' +str(opponent_card_idx)+' and '+ str(self.players[p_idx])+' at index ' +str(player_card_idx), False))
 
         elif put_card.number == 'K':
             self.r.publish(p_ch , utils.construct_message("Enter opponent index: "))
@@ -98,8 +98,8 @@ class Game(object):
             opponent_card = self.players[opponent_idx].get_card_by_idx(opponent_card_idx)
             player_card = self.players[p_idx].get_card_by_idx(player_card_idx)
 
-            self.r.publish(p_ch , utils.construct_message("Displaying opponent card:"+str(opponent_card), False))
-            self.r.publish(p_ch , utils.construct_message("Displaying own card:"+str(player_card), False))
+            self.r.publish(p_ch , utils.construct_message("Displaying opponent card: "+str(opponent_card), False))
+            self.r.publish(p_ch , utils.construct_message("Displaying own card: "+str(player_card), False))
 
             self.r.publish(p_ch , utils.construct_message("Swap card? 1 for Y, 0 for N: "))
             to_swap = int(utils.get_input(self.sub, server_ch))
@@ -108,7 +108,7 @@ class Game(object):
                 _ = self.players[p_idx].replace_card(opponent_card, player_card_idx)
                 _ = self.players[opponent_idx].replace_card(player_card, opponent_card_idx)
 
-            self.r.publish(all_ch , utils.construct_message("Swapped cards between"+ str(self.players[opponent_idx])+ ' and '+ str(self.players[p_idx]), False))
+            self.r.publish(all_ch , utils.construct_message("Swapped cards between "+ str(self.players[opponent_idx])+ ' at index ' +str(opponent_card_idx)+' and '+ str(self.players[p_idx])+' at index ' +str(player_card_idx), False))
 
         p_idx += 1
         p_idx = p_idx % len(self.players)

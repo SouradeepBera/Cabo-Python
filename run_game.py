@@ -47,7 +47,7 @@ for i in range(n_players):
 
 starting_player_idx = random.randint(0, n_players-1)
 idx = starting_player_idx
-r.publish("server-to-all" , construct_message('Game starting with'+str(players[idx]), False))
+r.publish("server-to-all" , construct_message('Game starting with '+str(players[idx]), False))
 
 game = Game(players, unseen_deck, r, sub)
 while idx != -1:
